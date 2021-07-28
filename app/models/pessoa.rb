@@ -3,4 +3,7 @@ class Pessoa < ApplicationRecord
 
     validates :nome, presence: true, uniqueness: true;
     validates :tipo_entidade, presence: true
+
+    has_many :contatos, dependent: :restrict_with_error
+    accepts_nested_attributes_for :contatos, allow_destroy: true
 end

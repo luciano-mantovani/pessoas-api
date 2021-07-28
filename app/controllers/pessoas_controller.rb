@@ -11,20 +11,21 @@ class PessoasController < ApplicationController
     end
 
     def create
-        pessoa = Pessoa.new(pessoa_params)
+        @pessoa = Pessoa.new(pessoa_params)
         #pessoa.attributes = pessoa_params
-        if pessoa.save
-            render json: {id: pessoa.id }, status: 201
+        if @pessoa.save
+            #render json: {id: pessoa.id }, status: 201
+            render :show, status: 201
         else
             render json: {error: pessoa.errors.full_messages }, status: 422
         end
     end
 
     def update
-        pessoa = Pessoa.find(params[:id])
-        pessoa.attributes = pessoa_params
-        if pessoa.save
-            render json: {id: pessoa.id }, status: 200
+        @pessoa = Pessoa.find(params[:id])
+        @pessoa.attributes = pessoa_params
+        if @pessoa.save
+            render :show, status: 201
         else
             render json: {error: pessoa.errors.full_messages }, status: 422
         end
@@ -50,7 +51,7 @@ class PessoasController < ApplicationController
     private
 
     def pessoa_params
-        params.permit(:nome, :tipo_entidade)
+        params.permit(:nome, :tipo_entidade, contatos_attributes: [:id, :tipo, :valor, :_destroy])
     end
     
 end    
